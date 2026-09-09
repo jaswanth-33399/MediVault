@@ -112,12 +112,32 @@
 //   )
 // }
 
-// export default App
-import Register from "./Register";
+// // export default App
+// import Register from "./Register";
+
+// function App() {
+//     return (
+//         <Register />
+//     );
+// }
+
+// // export default App;
+
+// import Login from "./Login";
+
+// function App() {
+//     return (
+//         <Login />
+//     );
+// }
+
+// export default App;
+
+import Profile from "./Profile";
 
 function App() {
     return (
-        <Register />
+        <Profile />
     );
 }
 
