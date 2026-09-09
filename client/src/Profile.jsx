@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
+    const navigate = useNavigate();
+
     const [user, setUser] = useState(null);
     const [error, setError] = useState("");
 
@@ -40,8 +43,20 @@ function Profile() {
         fetchProfile();
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
+
     if (error) {
-        return <h2>{error}</h2>;
+        return (
+            <div>
+                <h2>{error}</h2>
+                <button onClick={() => navigate("/login")}>
+                    Go to Login
+                </button>
+            </div>
+        );
     }
 
     if (!user) {
@@ -55,6 +70,10 @@ function Profile() {
             <p>Name: {user.name}</p>
             <p>Email: {user.email}</p>
             <p>Phone: {user.phone}</p>
+
+            <button onClick={handleLogout}>
+                Logout
+            </button>
         </div>
     );
 }

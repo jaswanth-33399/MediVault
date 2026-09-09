@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -31,10 +33,10 @@ function Login() {
             const data = await response.json();
 
             if (response.ok) {
-            localStorage.setItem("token", data.token);
+                localStorage.setItem("token", data.token);
 
-            alert("Login successful!");
-            console.log(data);
+                alert("Login successful!");
+                navigate("/profile");
             } else {
                 alert(data.message);
             }
