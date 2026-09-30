@@ -4,6 +4,8 @@ import Register from "./Register";
 import Login from "./Login";
 import Profile from "./Profile";
 import ProtectedRoute from "./ProtectedRoute";
+import Medicines from "./Medicines";
+import Prescriptions from "./Prescriptions";
 
 function App() {
     return (
@@ -17,6 +19,17 @@ function App() {
                 element={
                     <ProtectedRoute>
                         <Profile />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route path="/medicines" element={<Medicines />} />
+
+            <Route
+                path="/prescriptions"
+                element={
+                    <ProtectedRoute>
+                        <Prescriptions />
                     </ProtectedRoute>
                 }
             />

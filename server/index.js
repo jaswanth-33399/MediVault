@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
+const medicineRoutes = require("./routes/Medicine");
+const prescriptionRoutes = require("./routes/prescription");
+const prescriptionMedicineRoutes = require("./routes/prescriptionMedicine");
 
 const app = express();
 
@@ -17,9 +20,11 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"]
     })
 );
-
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/medicines", medicineRoutes);
+app.use("/api/prescriptions", prescriptionRoutes);
+app.use("/api/prescription-medicines", prescriptionMedicineRoutes);
 
 // MongoDB connection
 mongoose
