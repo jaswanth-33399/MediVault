@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth");
 const medicineRoutes = require("./routes/Medicine");
 const prescriptionRoutes = require("./routes/prescription");
 const prescriptionMedicineRoutes = require("./routes/prescriptionMedicine");
+const myMedicineRoutes = require("./routes/myMedicine");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/medicines", medicineRoutes);
 app.use("/api/prescriptions", prescriptionRoutes);
 app.use("/api/prescription-medicines", prescriptionMedicineRoutes);
+app.use("/api/my-medicines", myMedicineRoutes);
 
 // MongoDB connection
 mongoose

@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import ProtectedRoute from "./ProtectedRoute";
 import Medicines from "./Medicines";
 import Prescriptions from "./Prescriptions";
+import MyMedicines from "./MyMedicines";
 
 function App() {
     return (
@@ -24,7 +25,14 @@ function App() {
             />
 
             <Route path="/medicines" element={<Medicines />} />
-
+            <Route
+                path="/my-medicines"
+                element={
+                    <ProtectedRoute>
+                        <MyMedicines />
+                    </ProtectedRoute>
+                }
+            />
             <Route
                 path="/prescriptions"
                 element={
