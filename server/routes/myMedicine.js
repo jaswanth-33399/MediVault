@@ -5,7 +5,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Add a medicine to My Medicines
+// Add medicine to My Medicines
 router.post("/", authMiddleware, async (req, res) => {
     try {
         const {
@@ -24,6 +24,36 @@ router.post("/", authMiddleware, async (req, res) => {
             });
         }
 
+        // Check if the user already has this medicine
+        const existingMedicine = await MyMedicine.findOne({
+            userId: req.user.userId,
+            medicineId
+        });
+
+        if (existingMedicine) {
+            existingMedicine.quantity += quantity;
+
+            if (expiryDate) {
+                existingMedicine.expiryDate = expiryDate;
+            }
+
+            if (source) {
+                existingMedicine.source = source;
+            }
+
+            if (notes) {
+                existingMedicine.notes = notes;
+            }
+
+            await existingMedicine.save();
+
+            return res.status(200).json({
+                message: "Medicine quantity updated successfully",
+                myMedicine: existingMedicine
+            });
+        }
+
+        // Create a new medicine record if user does not have it
         const myMedicine = new MyMedicine({
             userId: req.user.userId,
             medicineId,
@@ -64,6 +94,52 @@ router.get("/", authMiddleware, async (req, res) => {
 
     } catch (error) {
         console.error("Get my medicines error:", error.message);
+
+        res.status(500).json({
+            message: "Server error"
+        });
+    }
+});
+
+// Use a medicine and decrease its quantity
+router.put("/:id/use", authMiddleware, async (req, res) => {
+    try {
+        const { quantity } = req.body;
+
+        if (!quantity || quantity <= 0) {
+            return res.status(400).json({
+                message: "Quantity must be greater than 0"
+            });
+        }
+
+        const myMedicine = await MyMedicine.findOne({
+            _id: req.params.id,
+            userId: req.user.userId
+        });
+
+        if (!myMedicine) {
+            return res.status(404).json({
+                message: "Medicine not found"
+            });
+        }
+
+        if (quantity > myMedicine.quantity) {
+            return res.status(400).json({
+                message: "Not enough medicine in stock"
+            });
+        }
+
+        myMedicine.quantity -= quantity;
+
+        await myMedicine.save();
+
+        res.status(200).json({
+            message: "Medicine usage recorded successfully",
+            myMedicine
+        });
+
+    } catch (error) {
+        console.error("Use medicine error:", error.message);
 
         res.status(500).json({
             message: "Server error"
