@@ -20,6 +20,12 @@ const myMedicineSchema = new mongoose.Schema(
             min: 0
         },
 
+        lowStockThreshold: {
+            type: Number,
+            default: 5,
+            min: 0
+        },
+
         expiryDate: {
             type: Date
         },

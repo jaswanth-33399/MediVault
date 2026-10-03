@@ -65,6 +65,18 @@ function MyMedicines() {
                     </p>
 
                     <p>
+                        <strong>Low-stock Threshold:</strong>{" "}
+                        {item.lowStockThreshold}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>{" "}
+                        {item.stockStatus === "low"
+                            ? "⚠️ Low Stock"
+                            : "✅ Normal"}
+                    </p>
+
+                    <p>
                         <strong>Expiry Date:</strong>{" "}
                         {item.expiryDate
                             ? new Date(

@@ -88,8 +88,16 @@ router.get("/", authMiddleware, async (req, res) => {
             .populate("medicineId")
             .sort({ createdAt: -1 });
 
+        const medicinesWithStatus = medicines.map((medicine) => ({
+            ...medicine.toObject(),
+            stockStatus:
+                medicine.quantity <= medicine.lowStockThreshold
+                    ? "low"
+                    : "normal"
+        }));
+
         res.status(200).json({
-            medicines
+            medicines: medicinesWithStatus
         });
 
     } catch (error) {
